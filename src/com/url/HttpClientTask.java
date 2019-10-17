@@ -9,6 +9,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.HttpClient;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.UUID;
 
@@ -30,14 +31,22 @@ public class HttpClientTask implements Runnable {
         HttpGet httpGet = new HttpGet(fileUrl);
         String tempPath = "D:/mp3";
         File accFile = new File(tempPath, UUID.randomUUID().toString() + ".mp3");
+        InputStream content = null;
         try{
             HttpResponse response = httpclient.execute(httpGet);
             HttpEntity entity = response.getEntity();
-            InputStream content = entity.getContent();
+            content = entity.getContent();
             FileUtils.copyInputStreamToFile(content, accFile);
         } catch (Exception e) {
             System.out.print(e);
         } finally {
+            if(content != null){
+                try {
+                    content.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
             System.out.println("........task end.....");
         }
     }
