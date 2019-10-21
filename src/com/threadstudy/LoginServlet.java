@@ -11,7 +11,7 @@ public class LoginServlet {
             synchronized public static void doPost(String userName, String password){
                 try {
                     userNameRef = userName;
-                    if(userName.equals("a")) {
+                    if("a".equals(userName)) {
                         Thread.sleep(5000);
                     }
                     passwordRef = password;

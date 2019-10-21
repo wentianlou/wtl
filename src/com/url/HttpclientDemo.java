@@ -1,5 +1,6 @@
 package com.url;
 
+import com.util.ThreadFactoryUtil;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.impl.client.HttpClients;
@@ -8,6 +9,7 @@ import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
+ * @author wentianlou
  * Author wentianlou
  * Date 2019/10/17 9:43
  **/
@@ -21,7 +23,8 @@ public class HttpclientDemo {
                 5,
                 60,
                 TimeUnit.SECONDS,
-                new LinkedBlockingQueue<>());
+                new LinkedBlockingQueue<>(),
+                ThreadFactoryUtil.getSimpleNameThreadFactory("Task-01"));
 
         RequestConfig requestConfig = RequestConfig.custom()
                 .setConnectTimeout(1000)
@@ -57,10 +60,12 @@ public class HttpclientDemo {
         //SynchronousQueue: 一个不存储元素的阻塞队列。每个插入操作必须等到另一个线程调用移除操作，否则插入操作一直处于阻塞状态，吞吐量高于LinkedBlockingQueue
 
         ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(2,
-                5, //值得注意的是，如果使用了无界的任务队列(linkedBlockingQueue)这个参数就没用了。
+                //值得注意的是，如果使用了无界的任务队列(linkedBlockingQueue)这个参数就没用了。
+                5,
                 1,
                 TimeUnit.MINUTES,
-                blockingQueue
+                blockingQueue,
+                ThreadFactoryUtil.getSimpleNameThreadFactory("Task-02")
         );
 
         for(int i = 0;i < 10; i++)
