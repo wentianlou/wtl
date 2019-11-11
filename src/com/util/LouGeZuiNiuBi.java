@@ -14,6 +14,7 @@ import java.util.regex.Pattern;
 public class LouGeZuiNiuBi {
 
     private static final String PATTERN = "'display':'(.*?)'.*?'phone':'(.*?)'";
+
     public static void main(String[] args) {
         String input = "[{'display':'020-123456','phone':'020123456'},{'display':'021-923456','phone':'020923456'}]";
         List<Phone> test = test(input);
@@ -31,7 +32,6 @@ public class LouGeZuiNiuBi {
         Matcher matcher = compile.matcher(input);
         int i = 0;
         while (matcher.find(i)) {
-//          System.out.println("display="+matcher.group(1)+",phone="+matcher.group(2));
             i += matcher.group(0).length();
             phones.add(new Phone(matcher.group(1), matcher.group(2)));
         }
